@@ -1,0 +1,69 @@
+version: 2
+
+models:
+  - name: fct_deal_stage_history
+    description: '{{ doc("fct_deal_stage_history") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: high
+    columns:
+      - name: deal_stage_id
+        description: '{{ doc("pd_deal_stage_id") }}'
+        tests: [not_null, unique]
+      - name: deal_id
+        description: '{{ doc("pd_deal_id") }}'
+        tests: [not_null]
+      - name: stage_id
+        description: '{{ doc("pd_stage_id") }}'
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__stages')
+                field: stage_id
+      - name: stage_name
+        description: '{{ doc("pd_stage_name") }}'
+      - name: valid_from_timestamp
+        description: '{{ doc("pd_valid_from_timestamp") }}'
+        tests: [not_null]
+      - name: valid_to_timestamp
+        description: '{{ doc("pd_valid_to_timestamp") }}'
+      - name: is_current_stage
+        description: '{{ doc("pd_is_current_stage") }}'
+      - name: stage_duration_seconds
+        description: '{{ doc("pd_stage_duration_seconds") }}'
+      - name: stage_entered_month
+        description: '{{ doc("pd_stage_entered_month") }}'
+      - name: user_id
+        description: '{{ doc("pd_user_id") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/user_identifier'
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__users')
+                field: user_id
+      - name: user_name
+        description: '{{ doc("pd_user_name") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/full_name'
+      - name: user_email
+        description: '{{ doc("pd_user_email") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/email'
+      - name: deal_creation_timestamp
+        description: '{{ doc("pd_deal_creation_timestamp") }}'
+      - name: deal_lost_timestamp
+        description: '{{ doc("pd_deal_lost_timestamp") }}'
+      - name: lost_reason_id
+        description: '{{ doc("pd_lost_reason_id") }}'
+      - name: lost_reason_name
+        description: '{{ doc("pd_lost_reason_name") }}'
+      - name: is_deal_lost_in_stage
+        description: '{{ doc("pd_is_deal_lost_in_stage") }}'

@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: pipedrive
+    database: postgres
+    schema: public
+    tables:
+      - name: fields
+        description: '{{ doc("src_pipedrive__fields") }}'
+        meta:
+          owner: data_platform
+          model_criticality: medium
+          
+        columns:
+          - name: id
+            description: '{{ doc("pd_field_id") }}'
+            tests: [not_null, unique]

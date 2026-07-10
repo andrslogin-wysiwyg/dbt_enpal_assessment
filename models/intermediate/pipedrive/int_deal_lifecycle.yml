@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: int_deal_lifecycle
+    description: '{{ doc("int_deal_lifecycle") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: high
+    columns:
+      - name: deal_id
+        description: '{{ doc("pd_deal_id") }}'
+        tests: [not_null, unique]
+      - name: deal_creation_timestamp
+        description: '{{ doc("pd_deal_creation_timestamp") }}'
+        tests: [not_null]
+      - name: deal_lost_timestamp
+        description: '{{ doc("pd_deal_lost_timestamp") }}'
+      - name: lost_reason_id
+        description: '{{ doc("pd_lost_reason_id") }}'
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__lost_reasons')
+                field: lost_reason_id
+      - name: lost_reason_name
+        description: '{{ doc("pd_lost_reason_name") }}'

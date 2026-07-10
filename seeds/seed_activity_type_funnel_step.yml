@@ -1,0 +1,30 @@
+version: 2
+
+seeds:
+  - name: seed_activity_type_funnel_step
+    description: '{{ doc("seed_activity_type_funnel_step") }}'
+    config:
+      schema: reporting
+      # Force text so funnel_step '2.1' is not inferred as a float (it must union
+      # with the varchar stage funnel_step in rep_sales_funnel_monthly).
+      column_types:
+        activity_type_code: varchar
+        funnel_step: varchar
+        kpi_name: varchar
+        include_in_funnel_report: boolean
+      meta:
+        owner: analytics_engineering
+        model_criticality: low
+    columns:
+      - name: activity_type_code
+        description: '{{ doc("pd_activity_type_code") }}'
+        tests: [not_null, unique]
+      - name: funnel_step
+        description: '{{ doc("pd_rep_funnel_step") }}'
+        tests: [not_null]
+      - name: kpi_name
+        description: '{{ doc("pd_rep_kpi_name") }}'
+        tests: [not_null]
+      - name: include_in_funnel_report
+        description: '{{ doc("pd_include_in_funnel_report") }}'
+        tests: [not_null]

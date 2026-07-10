@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: stg_pipedrive__stages
+    description: '{{ doc("stg_pipedrive__stages") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: low
+    columns:
+      - name: stage_id
+        description: '{{ doc("pd_stage_id") }}'
+        tests: [not_null, unique]
+      - name: stage_name
+        description: '{{ doc("pd_stage_name") }}'
+        tests: [not_null]

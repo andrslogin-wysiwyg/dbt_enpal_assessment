@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_pipedrive__activities
+    description: '{{ doc("stg_pipedrive__activities") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: medium
+    columns:
+      - name: activity_id
+        description: '{{ doc("pd_activity_id") }}'
+        tests: [not_null, unique]
+      - name: activity_type_code
+        description: '{{ doc("pd_activity_type_code") }}'
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__activity_types')
+                field: activity_type_code
+      - name: user_id
+        description: '{{ doc("pd_user_id") }}'
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__users')
+                field: user_id
+      - name: deal_id
+        description: '{{ doc("pd_activity_deal_id") }}'
+        tests: [not_null]
+      - name: is_done
+        description: '{{ doc("pd_is_done") }}'
+      - name: due_at_timestamp
+        description: '{{ doc("due_at_timestamp") }}'
