@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: pipedrive
+    database: postgres
+    schema: public
+    tables:
+      - name: activity
+        description: '{{ doc("src_pipedrive__activity") }}'
+        meta:
+          owner: data_platform
+          model_criticality: medium
+          
+        columns:
+          - name: activity_id
+            description: '{{ doc("pd_activity_id") }}'
+            # not unique in raw (duplicate ids exist) — deduped in staging.
+            tests: [not_null]
+          - name: deal_id
+            description: '{{ doc("pd_activity_deal_id") }}'
+            tests: [not_null]

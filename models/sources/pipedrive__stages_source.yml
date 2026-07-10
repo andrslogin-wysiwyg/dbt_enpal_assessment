@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: pipedrive
+    database: postgres
+    schema: public
+    tables:
+      - name: stages
+        description: '{{ doc("src_pipedrive__stages") }}'
+        meta:
+          owner: data_platform
+          model_criticality: medium
+          
+        columns:
+          - name: stage_id
+            description: '{{ doc("pd_stage_id") }}'
+            tests: [not_null, unique]

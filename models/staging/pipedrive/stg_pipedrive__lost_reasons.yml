@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: stg_pipedrive__lost_reasons
+    description: '{{ doc("stg_pipedrive__lost_reasons") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: low
+    columns:
+      - name: lost_reason_id
+        description: '{{ doc("pd_lost_reason_id") }}'
+        tests: [not_null, unique]
+      - name: lost_reason_name
+        description: '{{ doc("pd_lost_reason_name") }}'
+        tests: [not_null]

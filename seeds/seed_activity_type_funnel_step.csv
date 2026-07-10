@@ -1,0 +1,5 @@
+activity_type_code,funnel_step,kpi_name,include_in_funnel_report
+meeting,2.1,Sales Call 1,true
+sc_2,3.1,Sales Call 2,true
+after_close_call,7.1,After Close Call,false
+follow_up,8.1,Follow Up Call,false

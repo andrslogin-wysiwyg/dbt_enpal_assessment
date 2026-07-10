@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_pipedrive__users
+    description: '{{ doc("stg_pipedrive__users") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: medium
+    columns:
+      - name: user_id
+        description: '{{ doc("pd_user_id") }}'
+        tests: [not_null, unique]
+      - name: user_name
+        description: '{{ doc("pd_user_name") }}'
+      - name: user_email
+        description: '{{ doc("pd_user_email") }}'
+      - name: modified_at
+        description: '{{ doc("pd_modified_at") }}'

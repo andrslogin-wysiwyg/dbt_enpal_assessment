@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: int_deal_stage_history
+    description: '{{ doc("int_deal_stage_history") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: high
+    columns:
+      - name: deal_stage_id
+        description: '{{ doc("pd_deal_stage_id") }}'
+        tests: [not_null, unique]
+      - name: deal_id
+        description: '{{ doc("pd_deal_id") }}'
+        tests: [not_null]
+      - name: stage_id
+        description: '{{ doc("pd_stage_id") }}'
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__stages')
+                field: stage_id
+      - name: stage_name
+        description: '{{ doc("pd_stage_name") }}'
+      - name: valid_from_timestamp
+        description: '{{ doc("pd_valid_from_timestamp") }}'
+        tests: [not_null]
+      - name: valid_to_timestamp
+        description: '{{ doc("pd_valid_to_timestamp") }}'
+      - name: is_current_stage
+        description: '{{ doc("pd_is_current_stage") }}'

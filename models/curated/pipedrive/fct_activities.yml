@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: fct_activities
+    description: '{{ doc("fct_activities") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: medium
+    columns:
+      - name: activity_id
+        description: '{{ doc("pd_activity_id") }}'
+        tests: [not_null, unique]
+      - name: activity_type_code
+        description: '{{ doc("pd_activity_type_code") }}'
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__activity_types')
+                field: activity_type_code
+      - name: activity_type_name
+        description: '{{ doc("pd_activity_type_name") }}'
+      - name: is_active_activity_type
+        description: '{{ doc("pd_is_active") }}'
+      - name: user_id
+        description: '{{ doc("pd_user_id") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/user_identifier'
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__users')
+                field: user_id
+      - name: user_name
+        description: '{{ doc("pd_user_name") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/full_name'
+      - name: user_email
+        description: '{{ doc("pd_user_email") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/email'
+      - name: deal_id
+        description: '{{ doc("pd_activity_deal_id") }}'
+      - name: is_done
+        description: '{{ doc("pd_is_done") }}'
+      - name: due_at_timestamp
+        description: '{{ doc("due_at_timestamp") }}'
+      - name: activity_due_month
+        description: '{{ doc("pd_activity_due_month") }}'

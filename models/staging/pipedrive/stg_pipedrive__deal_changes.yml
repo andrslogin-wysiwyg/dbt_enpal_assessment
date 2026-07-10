@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_pipedrive__deal_changes
+    description: '{{ doc("stg_pipedrive__deal_changes") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: high
+    columns:
+      - name: deal_change_id
+        description: '{{ doc("pd_deal_change_id") }}'
+        tests: [not_null, unique]
+      - name: deal_id
+        description: '{{ doc("pd_deal_id") }}'
+        tests: [not_null]
+      - name: changed_field_key
+        description: '{{ doc("pd_changed_field_key") }}'
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['add_time', 'user_id', 'stage_id', 'lost_reason']
+      - name: new_value
+        description: '{{ doc("pd_new_value") }}'
+      - name: changed_at_timestamp
+        description: '{{ doc("pd_changed_at_timestamp") }}'
+        tests: [not_null]
+

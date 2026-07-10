@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: int_deal_assigned_user
+    description: '{{ doc("int_deal_assigned_user") }}'
+    config:
+      meta:
+        owner: analytics_engineering
+        model_criticality: high
+    columns:
+      - name: deal_assigned_user_id
+        description: '{{ doc("pd_deal_assigned_user_id") }}'
+        tests: [not_null, unique]
+      - name: deal_id
+        description: '{{ doc("pd_deal_id") }}'
+        tests: [not_null]
+      - name: user_id
+        description: '{{ doc("pd_user_id") }}'
+        # PII governance (illustrative — no-op on Postgres; shows intent).
+        # On BigQuery this maps to column-level security via policy tags.
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/user_identifier'
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_pipedrive__users')
+                field: user_id
+      - name: user_name
+        description: '{{ doc("pd_user_name") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          # BigQuery equivalent:
+          # policy_tags: ['projects/<p>/locations/<l>/taxonomies/<t>/policyTags/<pii>']
+          policy_tag: 'personal_data/full_name'
+      - name: user_email
+        description: '{{ doc("pd_user_email") }}'
+        meta:
+          contains_pii: true
+          data_classification: restricted_pii
+          policy_tag: 'personal_data/email'
+      - name: valid_from_timestamp
+        description: '{{ doc("pd_valid_from_timestamp") }}'
+        tests: [not_null]
+      - name: valid_to_timestamp
+        description: '{{ doc("pd_valid_to_timestamp") }}'
+      - name: is_current_assignment
+        description: '{{ doc("pd_is_current_assignment") }}'

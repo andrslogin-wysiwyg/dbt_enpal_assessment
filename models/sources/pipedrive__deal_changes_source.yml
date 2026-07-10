@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: pipedrive
+    database: postgres
+    schema: public
+    tables:
+      - name: deal_changes
+        description: '{{ doc("src_pipedrive__deal_changes") }}'
+        meta:
+          owner: data_platform
+          model_criticality: medium
+          
+        columns:
+          - name: deal_id
+            description: '{{ doc("pd_deal_id") }}'
+            tests: [not_null]
+          - name: change_time
+            description: '{{ doc("pd_changed_at_timestamp") }}'
+            tests: [not_null]
+          - name: changed_field_key
+            description: '{{ doc("pd_changed_field_key") }}'
+            tests: [not_null]

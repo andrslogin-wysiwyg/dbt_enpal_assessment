@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: pipedrive
+    database: postgres
+    schema: public
+    tables:
+      - name: activity_types
+        description: '{{ doc("src_pipedrive__activity_types") }}'
+        meta:
+          owner: data_platform
+          model_criticality: medium
+          
+        columns:
+          - name: id
+            description: '{{ doc("pd_activity_type_id") }}'
+            tests: [not_null, unique]
